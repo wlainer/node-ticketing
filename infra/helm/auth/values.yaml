@@ -1,0 +1,11 @@
+deploy:
+  deployName: auth-depl
+  name: auth
+  replicaCount: 1
+  container:
+    image: wlainer/auth
+    imagePullPolicy: Never
+service:
+  serviceName: auth-srv
+  name: auth
+  port: 3000
