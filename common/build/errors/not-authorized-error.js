@@ -19,7 +19,7 @@ var NotAuthorizedError = /** @class */ (function (_super) {
     __extends(NotAuthorizedError, _super);
     function NotAuthorizedError() {
         var _this = _super.call(this, 'Not Authorized') || this;
-        _this.statusCode = 200;
+        _this.statusCode = 401;
         Object.setPrototypeOf(_this, NotAuthorizedError.prototype);
         return _this;
     }
