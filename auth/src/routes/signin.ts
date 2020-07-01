@@ -1,8 +1,8 @@
 import express, {Request, Response} from "express";
 import {body} from 'express-validator'
-import {validateRequest} from "../middleware/validate-request";
+import {validateRequest} from "@wnr-org/common";
 import {User} from "../models/user";
-import {BadRequestError} from "../errors/bad-request-error";
+import {BadRequestError} from "@wnr-org/common";
 import {Password} from "../services/password";
 import jwt from "jsonwebtoken";
 
