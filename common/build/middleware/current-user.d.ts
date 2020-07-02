@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 interface UserPayload {
-    id: string;
+    user: string;
     email: string;
 }
 declare global {
