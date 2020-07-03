@@ -1,9 +1,29 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from "express";
+import {
+  requireAuth,
+  NotFoundError,
+  NotAuthorizedError,
+} from "@wnr-org/common";
+import { Order } from "../models/order";
 
 const router = express.Router();
 
-router.get('/orders/:id', (req: Request, res: Response) => {
+router.get(
+  "/api/orders/:orderId",
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const order = await Order.findById(req.params.orderId).populate("ticket");
 
-});
+    if (!order) {
+      throw new NotFoundError();
+    }
 
-export {router as showOrdersRoute};
+    if (order.userId !== req.currentUser!.user) {
+      throw new NotAuthorizedError();
+    }
+
+    res.send(order);
+  }
+);
+
+export { router as showOrdersRoute };
