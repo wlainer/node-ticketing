@@ -1,5 +1,5 @@
 import express, {Request, Response} from 'express';
-import {NotAuthorizedError, NotFoundError, requireAuth, validateRequest} from "@wnr-org/common";
+import {NotAuthorizedError, NotFoundError, requireAuth, validateRequest, BadRequestError} from "@wnr-org/common";
 import {Ticket} from "../models/ticket";
 import {body} from "express-validator";
 import {TicketUpdatedPublisher} from "../events/ticket-updated-publisher";
@@ -24,6 +24,10 @@ router.put('/api/tickets/:id', [
 
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if(ticket.orderId) {
+      throw new BadRequestError('Cannot edit a reserved ticket');
     }
 
     if (ticket.userId !== req.currentUser?.user) {
