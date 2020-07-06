@@ -6,6 +6,10 @@ import { Order } from "../../models/order";
 import { OrderStatus } from "@wnr-org/common";
 import {natsWrapper} from "../../nats/nats-wrapper";
 
+const createId = () => {
+  return mongoose.Types.ObjectId().toHexString();
+};
+
 it("returns an error if the ticket does not exist", async () => {
   const ticketId = mongoose.Types.ObjectId().toHexString();
 
@@ -18,6 +22,7 @@ it("returns an error if the ticket does not exist", async () => {
 
 it("returns as error if the ticket is already reserved", async () => {
   const ticket = Ticket.build({
+    id: createId(),
     title: "Metallica Concert",
     price: 20,
   });
@@ -39,6 +44,7 @@ it("returns as error if the ticket is already reserved", async () => {
 
 it("reserves a ticket", async () => {
   const ticket = Ticket.build({
+    id: createId(),
     title: "Metallica Concert",
     price: 20,
   });
@@ -52,6 +58,7 @@ it("reserves a ticket", async () => {
 
 it("emits an order created event", async () => {
   const ticket = Ticket.build({
+    id: createId(),
     title: "Metallica Concert",
     price: 20,
   });

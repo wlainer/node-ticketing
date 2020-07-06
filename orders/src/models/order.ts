@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import {OrderStatus} from "@wnr-org/common";
-import {TicketDoc} from "./ticket";
+import { OrderStatus } from "@wnr-org/common";
+import { TicketDoc } from "./ticket";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface OrderAttrs {
   userId: string;
@@ -31,7 +32,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: Object.values(OrderStatus),
-      default: OrderStatus.Created
+      default: OrderStatus.Created,
     },
     expiresAt: {
       type: mongoose.Schema.Types.Date,
@@ -51,6 +52,9 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+orderSchema.set("versionKey", "version");
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
